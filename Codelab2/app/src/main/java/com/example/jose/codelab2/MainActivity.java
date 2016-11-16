@@ -1,27 +1,18 @@
 package com.example.jose.codelab2;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import static android.R.attr.tag;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,18 +23,32 @@ public class MainActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+
+    //MESSAGE
+    Intent intent;
+    EditText editText;
+    //PHOTO
     private ImageView mImageView;
     Bitmap imageBitmap;
     private static final int ACTION_TAKE_PHOTO_S = 2;
+    Intent takePictureIntent;
+
+    //SAVE
+    DialogFragment newFragment = new MessageDialogFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //MESSAGE
+        intent = new Intent(this, DisplayMessageActivity.class);
+//        editText = (EditText) findViewById(R.id.edit_message);
         //PHOTO
         mImageView = (ImageView) findViewById(R.id.imageView1);
         imageBitmap = null;
+        takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         //SAVE
 
@@ -58,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
      * Called when the user clicks the Send button
      */
     public void sendMessage(View view) {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
+        editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
@@ -71,9 +75,6 @@ public class MainActivity extends AppCompatActivity {
      * Called to call an action that takes the photo.
      */
     private void dispatchTakePictureIntent() {
-
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         if (takePictureIntent.resolveActivity(getPackageManager()) != null)
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
     }
@@ -101,8 +102,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //SAVE SECTION
+
+    /**
+     * Called when the user clicks the Save button
+     */
     public void save(View view) {
-        DialogFragment newFragment = new FireMissilesDialogFragment();
-        newFragment.show(getSupportFragmentManager(), "missiles");
+        editText = (EditText) findViewById(R.id.edit_message);
+        String message = editText.getText().toString();
+//        System.out.println("|||"+message.isEmpty());
+        if(imageBitmap == null && message.isEmpty())
+            newFragment.show(getSupportFragmentManager(), "misiles"); //Shows the dialog
     }
 }
