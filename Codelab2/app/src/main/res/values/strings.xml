@@ -6,5 +6,5 @@
     <string name="button_Save">Save</string>
     <string name="fire">Fire</string>
     <string name="cancel">Cancel</string>
-    <string name="alert">Please add a message or picture</string>
+    <string name="alert">Please enter either a message or select an image</string>
 </resources>

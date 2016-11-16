@@ -3,7 +3,6 @@ package com.example.jose.codelab2;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,8 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,11 +21,12 @@ public class MainActivity extends AppCompatActivity {
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
-
-    //MESSAGE
+    List<Post> postList = new ArrayList<>();
     Intent intent;
+    //MESSAGE
+    Intent messageIntent;
     EditText editText;
+
     //PHOTO
     private ImageView mImageView;
     Bitmap imageBitmap;
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        intent = new Intent(this, PostActivity.class);
         //MESSAGE
-        intent = new Intent(this, DisplayMessageActivity.class);
+        messageIntent = new Intent(this, DisplayMessageActivity.class);
 //        editText = (EditText) findViewById(R.id.edit_message);
         //PHOTO
         mImageView = (ImageView) findViewById(R.id.imageView1);
@@ -51,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
         takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         //SAVE
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     //MESSAGE SECTION
@@ -65,11 +61,18 @@ public class MainActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+        messageIntent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(messageIntent);
     }
 
     //PHOTO SECTION
+
+    /**
+     * Called when the user clicks the Photo button
+     */
+    public void sendPhoto(View view) {
+        dispatchTakePictureIntent();
+    }
 
     /**
      * Called to call an action that takes the photo.
@@ -94,13 +97,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Called when the user clicks the Photo button
-     */
-    public void sendPhoto(View view) {
-        dispatchTakePictureIntent();
-    }
-
     //SAVE SECTION
 
     /**
@@ -110,7 +106,13 @@ public class MainActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();
 //        System.out.println("|||"+message.isEmpty());
-        if(imageBitmap == null && message.isEmpty())
+        if(message.isEmpty() && imageBitmap == null)
             newFragment.show(getSupportFragmentManager(), "misiles"); //Shows the dialog
+        else {
+//            postList.add(new Post(message, imageBitmap));
+            System.out.println("1|||"+imageBitmap); //Lo que pasa es que imageBitmap no es serializable, por lo que la actividad la toma como null.
+            intent.putExtra("myObject", new Post(message, imageBitmap));
+            startActivity(intent);
+        }
     }
 }

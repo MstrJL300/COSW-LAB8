@@ -1,9 +1,7 @@
 package com.example.jose.codelab2;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 
@@ -48,6 +46,7 @@ public class MessageDialogFragment extends android.support.v4.app.DialogFragment
                         // User cancelled the dialog
                     }
                 });*/
+
         // Create the AlertDialog object and return it
         return builder.create();
     }
