@@ -18,12 +18,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/edit_message" />
-
+<!--
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_send"
             android:onClick="sendMessage" />
+-->
 
     </LinearLayout>
 
@@ -39,6 +40,11 @@
             android:layout_height="wrap_content"
             android:text="@string/button_photo" android:id="@+id/btnIntendS"
             android:onClick="sendPhoto" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_gallery" android:id="@+id/btnIntend"
+            android:onClick="sendGalleryPhoto" />
         <ImageView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"

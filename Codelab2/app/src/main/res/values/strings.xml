@@ -3,6 +3,7 @@
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
     <string name="button_photo">Add Photo</string>
+    <string name="button_gallery">Photo Gallery</string>
     <string name="button_Save">Save</string>
     <string name="fire">Fire</string>
     <string name="cancel">Cancel</string>

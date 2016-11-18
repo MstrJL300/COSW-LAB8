@@ -1,8 +1,12 @@
 package com.example.jose.codelab2;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +19,6 @@ import java.util.List;
  */
 
 public class PostActivity extends AppCompatActivity {
-    List<Post> postList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +26,21 @@ public class PostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_display_message);
 
         Intent intent = getIntent();
-        Post message = (Post) intent.getSerializableExtra("myObject");
+        Post post = (Post) intent.getSerializableExtra("myObject"); //We turn it in Post with "myObject" key
 
-        System.out.println("2|||"+message.getImage());
-
+//TEXT SECTION
         TextView textView = new TextView(this);
-        textView.setTextSize(50);
-        textView.setText(message.getMessage());
-
+        textView.setTextSize(40);
+        textView.setText(post.getMessage());
+//PHOTO SECTION
         ImageView imageView = new ImageView(this);
-        imageView.setImageBitmap(message.getImage());
-
+        byte[] encodeByte = post.getImage();
+        Bitmap imageBitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+        imageView.setImageBitmap(imageBitmap);
+//LAYOUT SECTION
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_display_message);
         layout.addView(textView);
+        imageView.setY(textView.getLineHeight());
         layout.addView(imageView);
     }
 }
