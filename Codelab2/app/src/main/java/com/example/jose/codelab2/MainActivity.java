@@ -126,12 +126,11 @@ public class MainActivity extends AppCompatActivity {
         if(select==0)
             if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
                 Bundle extras = data.getExtras();
-                System.out.println("1|||||||||"+data);
                 imageBitmap = (Bitmap) extras.get("data");
                 mImageView.setImageBitmap(imageBitmap);
             }
         if(select==1) {
-//            super.onActivityResult(requestCode, resultCode, data);
+            //This section request permition for reading the images
             if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && null != data) {
                 //Permission for reading
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
